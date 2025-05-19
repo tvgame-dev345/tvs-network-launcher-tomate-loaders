@@ -26,10 +26,10 @@ export async function downloadNeoForge(
   const writer = fs.createWriteStream(neoForgeFilePath);
   neoForgeResponse.data.pipe(writer);
 
-  await new Promise((resolve, reject) => {
-    writer.on('finish', resolve);
-    writer.on('error', reject);
-  });
+await new Promise<void>((resolve, reject) => {
+  writer.on('finish', () => resolve());
+  writer.on('error', (error) => reject(error));
+});
 }
 
 export async function getMavenMetadata() {
