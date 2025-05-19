@@ -26,10 +26,10 @@ export async function downloadForge(
   const writer = fs.createWriteStream(forgeFilePath);
   forgeResponse.data.pipe(writer);
 
-  await new Promise((resolve, reject) => {
-    writer.on('finish', resolve);
-    writer.on('error', reject);
-  });
+await new Promise<void>((resolve, reject) => {
+  writer.on('finish', () => resolve());
+  writer.on('error', (error) => reject(error));
+});
 }
 
 export async function getMavenMetadata() {
